@@ -1,0 +1,22 @@
+version: 0.2
+
+env:
+  parameter-store:
+    DOCKER_REGISTRY_USERNAME: app/docker/username
+    DOCKER_REGISTRY_PASSWORD: app/docker/password
+    DOCKER_REGISTRY_URL: app/docker-registry/url 
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.10
+  
+  pre_build:
+    commands:
+      - echo "Installing Dependencies!!"
+      - pip install -r simple-python-app/requirements.txt
+      - docker build -t "DOCKER_REGISTRY_URL/DOCKER_REGISTRY_USERNAME/DOCKER_REGISTRY_PASSWORD/sample-python-flask-app:latest" .
+      - docker push "DOCKER_REGISTRY_URL/DOCKER_REGISTRY_USERNAME/DOCKER_REGISTRY_PASSWORD/sample-python-flask-app:latest"  
+
+  post_build:
+    echo "Build complete!!s"
