@@ -1,10 +1,12 @@
 #!/bin/sh
 
+# Get the Docker container ID
+ContainerID=$(docker ps -q)
 
-ContainerID = `docker ps | awk -F"" {print$1}` 
-if [ -z "$ContianerID" ]; then
-    echo "No containers runnig"
+# Check if a container ID was found
+if [ -z "$ContainerID" ]; then
+    echo "No running Docker container found."
 else
-    echo "A running container found removeing it : $ContainerID"
+    echo "Removing Docker container with ID: $ContainerID"
     sudo docker rm -f $ContainerID
 fi
